@@ -1,0 +1,26 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+app_home:
+  path: /
+  controller: App\Controller\HomeController::index
+
+app_trick_show:
+  path: /trick/{slug}
+  controller: App\Controller\TrickController::show
+
+app_register:
+  path: /register
+  controller: App\Controller\RegistrationController::register
+
+app_login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+
+app_confirm:
+  path: /confirm/{token}
+  controller: App\Controller\RegistrationController::confirmEmail
+
+app_logout:
+  path: /logout
