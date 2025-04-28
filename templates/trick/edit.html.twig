@@ -75,7 +75,7 @@
             {% if videos %}
                 {% for video in videos %}
                     <div class="work__item wide__item">
-                        {{ video.embedCode|raw }}
+                        {{ video.embedCode|safe_embed  }}
                         <div class="work__item__hover">
                             <ul>
                                 <li>

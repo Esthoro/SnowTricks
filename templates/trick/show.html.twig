@@ -47,7 +47,7 @@
             {% endfor %}
             {% for video in allVideos %}
                 <div class="work__item wide__item">
-                    {{ video.embedCode|raw }}
+                    {{ video.embedCode|safe_embed  }}
                 </div>
             {% endfor %}
         </div>
