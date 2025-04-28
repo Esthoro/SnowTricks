@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Home{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero__slider owl-carousel">
+            <div class="hero__item set-bg" data-setbg="{{ asset('assets/img/fondAccueil.jpg') }}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <span style="color:#100028;">Pour les passionnés de snowboard</span>
+                                <h2 style="color:#100028;">Snowtricks</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="team__btn">
+                            <a href="#portfolio_tricks_filters" id="scrollDown" style="padding: 10px;">
+                                <i class="fa-solid fa-arrow-down" style="color: #FFF;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="flash-message-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1051;"></div>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}" data-message="{{ message|e('html_attr') }}"></div>
+        {% endfor %}
+    {% endfor %}
+
+    {% if allTricks %}
+        <section class="portfolio spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="portfolio__filter" id="portfolio_tricks_filters">
+                            <li class="active" data-filter="*">All</li>
+                            <li data-filter=".butters">Butters</li>
+                            <li data-filter=".grabs">Grabs</li>
+                            <li data-filter=".spins">Spins</li>
+                            <li data-filter=".flips">Flips</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row portfolio__gallery">
+                    {% for trick in allTricks %}
+                        <div class="col-lg-4 col-md-6 col-sm-6 mix {{ trick.groupName }}">
+                            <a href="{{ path('app_trick_show', { 'slug': trick.slug }) }}">
+                                <div class="portfolio__item">
+                                    {% if allIllustrations[trick.id] is defined %}
+                                        <img style="height: auto;display: block;margin: 0 auto;" src="{{ asset('uploads/tricks_illustrations/' ~ allIllustrations[trick.id][0]) }}" alt="Illustration de {{ trick.name }}">
+                                    {% endif %}
+                                    <div class="portfolio__item__text">
+                                        <h4>{{ trick.name }}</h4>
+                                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                            <a style="padding: 10px;" href="{{ path('app_trick_edit', {'id': trick.id}) }}"><i class="fa-solid fa-pencil"></i></a>
+                                            <a class="homeTrick" href="#" data-bs-toggle="modal" data-bs-target="#deleteTrickModal" data-trickname="{{ trick.name }}" data-trickid="{{ trick.id }}"><i class="fa-solid fa-trash-can"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if allTricks|length >= 9 %}
+                    <div class="row">
+                        <div class="col-lg-12 p-0">
+                            <div class="team__btn" style="position: relative;display: flex;justify-content: center;">
+                                <a href="#" class="primary-btn">Load more</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 p-0">
+                            <div class="team__btn">
+                                <a href="#" id="scrollToTop">
+                                    <i class="fa-solid fa-arrow-up" style="color: #FFF;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        {% include 'modals/delete_trick_modal.html.twig' %}
+    {% endif %}
+
+    <script>
+     function scrollToElement(buttonId, targetId) {
+            const button = document.getElementById(buttonId);
+            const target = document.getElementById(targetId);
+
+            if (button && target) {
+                button.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    target.scrollIntoView({ behavior: "smooth" });
+                });
+            }
+        }
+
+        scrollToElement("scrollToTop", "portfolio_tricks_filters");
+        scrollToElement("scrollDown", "portfolio_tricks_filters");
+    </script>
+{% endblock %}

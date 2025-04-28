@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Inscription{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero__slider owl-carousel">
+            <div class="hero__item set-bg" data-setbg="{{ asset('assets/img/fondInscription.webp') }}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <h2 style="color:#100028;">Inscription</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="custom-margin-top">
+                    <div class="contact__form">
+                        <h3></h3>
+                        {{ form_start(registrationForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                        {{ form_row(registrationForm.name, {'attr': {'placeholder': 'Nom*'}}) }}
+                        {{ form_row(registrationForm.email, {'attr': {'placeholder': 'Email*'}}) }}
+                        {{ form_row(registrationForm.password, {'attr': {'placeholder': 'Mot de passe*'}}) }}
+                        <label style="color: #FFFFFF" for="{{ registrationForm.photoPath.vars.id }}">
+                            Uploadez une photo de profil (JPEG, PNG - taille maximale, 2Mo)
+                        </label>
+                        {{ form_row(registrationForm.photoPath) }}
+
+                        <button type="submit" class="site-btn">S'inscrire</button>
+                        {{ form_end(registrationForm) }}
+
+                        <br>
+                        {% endfor %}
+                        <br>
+                        <p>Après inscription, vous recevrez un email de confirmation contenant un lien à confirmer. <br>
+                            N'oubliez pas de vérifier dans vos spams. <br>
+                            À bientôt !</p>
+                        <p>
+                            Déjà inscrit ? Rendez-vous sur
+                            <a href="{{ path('app_login') }}">cette page.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

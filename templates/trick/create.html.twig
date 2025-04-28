@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Création d'un trick{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero__slider owl-carousel">
+            <div class="hero__item set-bg" data-setbg="{{ asset('assets/img/fondCreateTrick.jpg') }}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <h2 style="color:#100028;">Créer un nouveau trick</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="custom-margin-top">
+                    <div class="contact__form">
+                        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+                        {{ form_row(form.name, {'attr': {'placeholder': 'Nom*'}}) }}
+                        {{ form_row(form.description, {'attr': {'placeholder': 'Description*'}}) }}
+                        <label for="groupName">Groupe de la figure</label>
+                        {{ form_widget(form.groupName) }}
+                        <div>
+                            <label>Illustrations</label>
+                            <div id="trick_images_wrapper">
+                                {{ form_widget(form.images) }}
+                            </div>
+                            <a href="#" class="primary-btn" id="add_image_btn">Ajouter une illustration</a>                        </div>
+                        <div>
+                            <label>Vidéos</label>
+                            <div id="trick_videos_wrapper">
+                                {{ form_widget(form.videos) }}
+                            </div>
+                            <a href="#" class="primary-btn" id="add_video_btn" style="margin-bottom: 20px;">Ajouter une vidéo</a>
+                        </div>
+                        {{ form_row(form.submit, {'attr': {'class': 'site-btn'}}) }}
+                        {{ form_end(form) }}
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

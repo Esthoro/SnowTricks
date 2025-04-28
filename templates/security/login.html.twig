@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Connexion{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero__slider owl-carousel">
+            <div class="hero__item set-bg" data-setbg="{{ asset('assets/img/fondConnexion.webp') }}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <h2 style="color:#100028;">Connexion</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="custom-margin-top">
+                    <div class="contact__form">
+                        <form method="post">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+                            {% if app.user %}
+                                <div class="mb-3 alert alert-success">
+                                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                </div>
+                            {% endif %}
+                            <div class="form-group mb-3">
+                                <label for="inputUsername" class="form-label">Adresse e-mail</label>
+                                <input type="email"
+                                       value="{{ last_username }}"
+                                       name="email"
+                                       id="inputUsername"
+                                       class="form-control"
+                                       autocomplete="email"
+                                       required
+                                       autofocus>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputPassword" class="form-label">Mot de passe</label>
+                                <input type="password"
+                                       name="password"
+                                       id="inputPassword"
+                                       class="form-control"
+                                       autocomplete="current-password"
+                                       required>
+                            </div>
+
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="remember_me" name="_remember_me">Remember me
+                                </label>
+                            </div>
+                            <button class="btn btn-lg btn-primary" type="submit">Se connecter</button></form>
+                        <br>
+                        <p>
+                            <a href="/reset-password">Mot de passe oublié ?</a>
+                        </p>
+                        <p>
+                            Pas encore inscrit ? Rendez-vous sur <a href="/register">cette page.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

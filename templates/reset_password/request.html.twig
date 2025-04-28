@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Mot de passe oublié{% endblock %}
+
+{% block body %}
+<section class="hero">
+    <div class="hero__slider owl-carousel">
+        <div class="hero__item set-bg" data-setbg="{{ asset('assets/img/fondMdpOublie.jpg') }}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            <h2 style="color:#100028;">Mot de passe oublié</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<section class="contact">
+    <div class="container">
+        <div class="row">
+            <div class="custom-margin-top">
+                <div class="contact__form">
+                    <br>
+                    {{ form_start(requestForm) }}
+                    {{ form_widget(requestForm.email, {'attr': {'placeholder': 'Email'}}) }}
+                    <button type="submit" class="site-btn">Envoyer</button>
+                    {{ form_end(requestForm) }}
+                    <br>
+                    <p><strong><i><span id="messageForgotPwd"></span></i></strong></p>
+                    <br>
+                    <p>
+                        Vous allez recevoir un email afin de réinitialiser votre mot de passe. N'oubliez pas de vérifier vos spams !
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

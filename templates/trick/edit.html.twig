@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Modifier un trick{% endblock %}
+
+{% block body %}
+<section class="hero">
+    <div class="hero__slider owl-carousel">
+        <div class="hero__item set-bg" data-id="illustration-{{ first_illustration.id }}" data-setbg="{{ asset('uploads/tricks_illustrations/' ~ first_illustration.path) }}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            <h2 style="color:#100028;">{{ trick.name }}</h2>
+                            <a style="padding: 10px;" class="updateIllustration" href="#"
+                               data-bs-toggle="modal"
+                               data-bs-target="#updateIllustrationModal"
+                               data-path="{{ asset('uploads/tricks_illustrations/' ~ first_illustration.path) }}"
+                               data-id="{{ first_illustration.id }}">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+                            <a class="deleteIllustration"
+                               data-bs-toggle="modal"
+                               data-bs-target="#deleteIllustrationModal"
+                               data-id="{{ first_illustration.id }}"
+                               data-path="{{ asset('uploads/tricks_illustrations/' ~ first_illustration.path) }}"
+                               href="#">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div id="flash-message-container" style="position: fixed; top: 1rem; right: 1rem; z-index: 1051;"></div>
+
+    {% if trick %}
+    <section class="work">
+        <div class="team__btn" style="position: relative;display: flex;justify-content: center;">
+            <a id="toggleGallery" href="#" class="primary-btn">Afficher la galerie</a>
+        </div>
+    </section>
+
+    <section id="workSection" class="work">
+        <div class="work__gallery">
+            <div class="grid-sizer"></div>
+
+            {% if illustrations %}
+                {% for illustration in illustrations %}
+                    <div class="work__item wide__item set-bg" data-id="illustration-{{ illustration.id }}" data-setbg="{{ asset('uploads/tricks_illustrations/' ~ illustration.path) }}">
+                        <div class="work__item__hover">
+                            <ul>
+                                <li>
+                                    <a class="updateIllustration" href="#" data-bs-toggle="modal" data-bs-target="#updateIllustrationModal"
+                                       data-path="{{ asset('uploads/tricks_illustrations/' ~ illustration.path) }}"
+                                       data-id="{{ illustration.id }}">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="deleteIllustration" href="#" data-bs-toggle="modal" data-bs-target="#deleteIllustrationModal"
+                                       data-path="{{ asset('uploads/tricks_illustrations/' ~ illustration.path) }}"
+                                       data-id="{{ illustration.id }}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if videos %}
+                {% for video in videos %}
+                    <div class="work__item wide__item">
+                        {{ video.embedCode|raw }}
+                        <div class="work__item__hover">
+                            <ul>
+                                <li>
+                                    <a class="updateVideo" href="#" data-bs-toggle="modal" data-bs-target="#updateVideoModal"
+                                       data-id="{{ video.id }}">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="deleteVideo" href="#" data-bs-toggle="modal" data-bs-target="#deleteVideoModal"
+                                       data-id="{{ video.id }}">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="contact">
+        <div class="container">
+            <div class="row g-0">
+                <div class="custom-margin-top w-100">
+                    <div class="contact__form">
+                        <form action="#" id="updateTrickForm" enctype="multipart/form-data" class="w-100">
+                            <input type="hidden" name="trickId" id="trickId" value="{{ trick.id }}">
+                            <input id="trickName" name="trickName" type="text" placeholder="Nom de la figure*" value="{{ trick.name }}" required="">
+                            <textarea id="trickDescription" name="trickDescription" placeholder="Description*" required="">{{ trick.description }}</textarea>
+
+                            {% set groups = { 'butters': 'Butters', 'grabs': 'Grabs', 'spins': 'Spins', 'flips': 'Flips' } %}
+                            <select name="groupeTrickSelect" id="groupeTrickSelect">
+                                <option disabled value="">Choisir un groupe*</option>
+                                {% for value, label in groups %}
+                                    <option value="{{ value }}" {% if trick.groupName == value %}selected{% endif %}>
+                                        {{ label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <button type="submit" class="site-btn col-6">Mettre à jour</button>
+                        </form>
+                        <br>
+                        <a class="homeTrick" href="#" data-bs-toggle="modal" data-bs-target="#deleteTrickModal"
+                           data-trickname="{{ trick.name }}" data-trickid="{{ trick.id }}">
+                            Supprimer le trick
+                        </a>
+                        <br>
+                        <p><strong><i><span id="messageUpdateTrick"></span></i></strong></p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'modals/update_illustration_modal.html.twig' %}
+    {% include 'modals/delete_illustration_modal.html.twig' %}
+    {% include 'modals/update_video_modal.html.twig' %}
+    {% include 'modals/delete_video_modal.html.twig' %}
+    {% include 'modals/delete_trick_modal.html.twig' %}
+{% endif %}
+{% endblock %}

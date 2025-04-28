@@ -1,0 +1,26 @@
+<div class="modal fade" id="updateIllustrationModal" tabindex="-1" aria-labelledby="updateIllustrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateIllustrationModalLabel">Changer l'illustration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Fermer</button>
+            </div>
+            <div class="modal-body">
+                <form id="updateIllustrationForm" enctype="multipart/form-data">
+                    <input type="hidden" name="idIllustrationToUpdate" id="idIllustrationToUpdate">
+                    <div class="mb-3">
+                        <img id="previewImageForUpdate" src="" alt="Illustration actuelle" class="img-fluid rounded mx-auto d-block previewImage" style="max-height: 200px; object-fit: cover;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="illustration" class="form-label">Choisir une nouvelle illustration :</label>
+                        <input type="file" class="form-control" id="illustration" name="illustration" accept="image/*" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Mettre à jour</button>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

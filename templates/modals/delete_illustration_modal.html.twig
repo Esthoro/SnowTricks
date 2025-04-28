@@ -1,0 +1,22 @@
+<div class="modal fade" id="deleteIllustrationModal" tabindex="-1" aria-labelledby="deleteIllustrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteIllustrationModalLabel">Supprimer l'illustration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Fermer</button>
+            </div>
+            <div class="modal-body">
+                <form id="deleteIllustrationForm">
+                    <input type="hidden" id="idIllustrationToDelete">
+                    <div class="mb-3">
+                        <img id="previewImageForDelete" src="" alt="Illustration actuelle" class="img-fluid rounded previewImage mx-auto d-block" style="object-fit: cover;">
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Supprimer</button>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

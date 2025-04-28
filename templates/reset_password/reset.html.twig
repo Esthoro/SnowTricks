@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snowtricks - Réinitialisation du mot de passe{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero__slider owl-carousel">
+            <div class="hero__item set-bg" data-setbg="{{ asset('assets/img/fondResetPwd.jpg') }}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <h2 style="color:#100028;">Réinitialisation du mot de passe</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact">
+        <div class="container">
+            <div class="row">
+                <div class="custom-margin-top">
+                    <div class="contact__form">
+                        <br>
+                        {{ form_start(resetPasswordForm) }}
+                        {{ form_row(resetPasswordForm.password.first) }}
+                        {{ form_row(resetPasswordForm.password.second) }}
+                        {{ form_row(resetPasswordForm.token) }}
+                        <button type="submit" class="site-btn">Envoyer</button>
+                        {{ form_end(resetPasswordForm) }}
+                        <br>
+                        <p><strong><i><span id="messageResetPwd"></span></i></strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

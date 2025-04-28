@@ -1,0 +1,23 @@
+<div class="modal fade" id="updateVideoModal" tabindex="-1" aria-labelledby="updateVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateVideoModalLabel">Changer la vidéo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Fermer</button>
+            </div>
+            <div class="modal-body">
+                <form id="updateVideoForm">
+                    <input type="hidden" id="idVideoToUpdate">
+                    <div class="mb-3">
+                        <label for="video">Collez la balise embed de la nouvelle vidéo :</label>
+                        <textarea id="video" style="width: 100%;" name="video" placeholder="Collez ici le code embed de votre vidéo"></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">Mettre à jour</button>
+                    </div>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
