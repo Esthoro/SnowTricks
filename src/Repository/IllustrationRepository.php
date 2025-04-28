@@ -27,7 +27,7 @@ class IllustrationRepository extends ServiceEntityRepository
     /**
      * @return Illustration[] Returns an array of Illustration objects
      */
-    public function findByTrickId($trickId): array
+    public function findByTrickId(int $trickId): array
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.trick = :trickId')

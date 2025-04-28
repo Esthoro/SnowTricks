@@ -24,7 +24,7 @@ class TrickRepository extends ServiceEntityRepository
         return $this->findBy([], ['name' => 'ASC']);
     }
 
-    public function findOneBySlug($slug): ?Trick
+    public function findOneBySlug(string $slug): ?Trick
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.slug = :slug')

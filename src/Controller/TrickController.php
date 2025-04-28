@@ -102,7 +102,7 @@ final class TrickController extends AbstractController
             $trick->setSlug($slug);
 
             // Gérer les illustrations
-            $images = $form->get('images')->getData();
+            $images = $form->get('images')->getData() ?? [];
 
             if (count($images) === 0) {
                 // Image par défaut
