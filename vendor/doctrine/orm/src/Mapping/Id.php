@@ -7,6 +7,6 @@ namespace Doctrine\ORM\Mapping;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class Version implements MappingAttribute
+final class Id implements MappingAttribute
 {
 }
