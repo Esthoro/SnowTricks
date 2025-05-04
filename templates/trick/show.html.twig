@@ -83,7 +83,8 @@
                                 <h4>Messages</h4>
                                 {% if messages %}
                                 {% for message in messages %}
-                                    <div class="row">
+                                    {% set index = loop.index0 %}
+                                    <div class="row message-card {% if index >= 10 %}d-none{% endif %}">
                                         <div class="testimonial__item">
                                             <div class="testimonial__author">
                                                 <div class="testimonial__author__pic">
@@ -104,17 +105,19 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-                                <div class="row">
-                                    <div class="col-lg-12 p-0">
-                                        <div class="team__btn d-flex justify-content-center">
-                                            <a href="#" class="primary-btn">Load more</a>
+                                    {% if messages|length >= 10 %}
+                                        <div class="row">
+                                            <div class="col-lg-12 p-0">
+                                                <div class="team__btn d-flex justify-content-center">
+                                                    <a href="#" id="loadMoreMsgBtn" class="primary-btn">Load more</a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                {% endif %}
                                 {% else %}
+                                    <p>Aucun message pour ce trick.</p>
+                                {% endif %}
                             </div>
-                            <p>Aucun message pour ce trick.</p>
-                        {% endif %}
                     </div>
                 </div>
             </div>

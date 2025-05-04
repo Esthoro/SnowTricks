@@ -180,25 +180,29 @@ final class TrickController extends AbstractController
         $groupeTrick = trim($request->request->get('groupeTrickSelect', ''));
 
         if (!$trickId) {
-            return new JsonResponse(['error' => 'ID de la figure manquant.'], 400);
+            return new JsonResponse(['success' => false, 'message' => 'Le\'ID de la figure est requis.']);
         }
 
         if (empty($trickName)) {
-            return new JsonResponse(['error' => 'Le nom de la figure est requis.'], 400);
+            return new JsonResponse(['success' => false, 'message' => 'Le nom de la figure est requis.']);
         }
 
         if (empty($trickDescription)) {
-            return new JsonResponse(['error' => 'La description de la figure est requise.'], 400);
-        }
+            return new JsonResponse(['success' => false, 'message' => 'La description de la figure est requise.']);}
 
         if (empty($groupeTrick)) {
-            return new JsonResponse(['error' => 'Le groupe de la figure est requis.'], 400);
+            return new JsonResponse(['success' => false, 'message' => 'Le groupe de la figure est requis.']);
+        }
+
+        $existingTrick = $em->getRepository(Trick::class)->findOneBy(['name' => $trickName]);
+        if ($existingTrick && $existingTrick->getId() !== (int) $trickId) {
+            return new JsonResponse(['success' => false, 'message' => 'Ce nom est déjà utilisé par un autre trick.']);
         }
 
         $trick = $em->getRepository(Trick::class)->find($trickId);
 
         if (!$trick) {
-            return new JsonResponse(['error' => 'Figure non trouvée.'], 404);
+            return new JsonResponse(['success' => false, 'message' => 'Figure non trouvée.']);
         }
 
         $trick->setName($trickName);
