@@ -71,7 +71,7 @@ $(document).ready(function () {
                 $('#deleteTrickModal').modal('hide');
                 showFlashMessage('success', 'Trick supprimé avec succès.');
                 //Si on supprime un trick depuis la page du trick lui-même, retourner sur la page d'accueil
-                if (window.location !== '/') {
+                if (window.location.pathname !== '/') {
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 3000);
@@ -188,7 +188,7 @@ $(document).ready(function () {
                 video: videoEmbedCode
             },
             success: function(response) {
-                showFlashMessage('success', response);
+                showFlashMessage('success', response.success);
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);
@@ -217,11 +217,13 @@ $(document).ready(function () {
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 3000);
+                }  else {
+                    showFlashMessage('error', response.message);
                 }
             },
             error: function() {
-                const errorMsg = xhr.responseJSON ? xhr.responseJSON.error : 'Erreur inconnue.';
-                showFlashMessage('error', errorMsg);            }
+                showFlashMessage('error', 'Erreur');
+            }
         });
     });
 
@@ -251,6 +253,49 @@ $(document).ready(function () {
     });
 
 
+    // Bouton loadMore page d'accueil
+    let visibleTricksCount = 9;
+    const incrementTricks = 6;
+    const $trickCards = $('.trick-card');
+    const $loadMoreTricksBtn = $('#loadMoreTricksBtn');
+
+    $loadMoreTricksBtn.on('click', function (e) {
+        e.preventDefault();
+        let shown = 0;
+        $trickCards.each(function (index) {
+        if (index >= visibleTricksCount && shown < incrementTricks) {
+        $(this).removeClass('d-none');
+        shown++;
+    }
+    });
+
+        visibleTricksCount += shown;
+        if (visibleTricksCount >= $trickCards.length) {
+            $loadMoreTricksBtn.hide();
+    }
+    });
+
+    //Bouton loadMore page trick
+    let visibleMsgCount = 10;
+    const incrementMsg = 5;
+    const $msgCards = $('.message-card');
+    const $loadMoreMsgBtn = $('#loadMoreMsgBtn');
+
+    $loadMoreMsgBtn.on('click', function (e) {
+        e.preventDefault();
+        let shown = 0;
+        $msgCards.each(function (index) {
+            if (index >= visibleMsgCount && shown < incrementMsg) {
+                $(this).removeClass('d-none');
+                shown++;
+            }
+        });
+
+        visibleMsgCount += shown;
+        if (visibleMsgCount >= $msgCards.length) {
+            $loadMoreMsgBtn.hide();
+        }
+    });
 });
 
 function showFlashMessage(type, message) {
