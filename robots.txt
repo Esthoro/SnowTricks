@@ -1,8 +1,0 @@
-User-agent: *
-Disallow: /trick/*/edit
-Disallow: /trick/create
-
-Allow: /
-Allow: /login
-Allow: /register
-Allow: /reset-password
