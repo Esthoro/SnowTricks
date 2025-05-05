@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteBase /Snowtricks/
+
+# Redirection pour les pages spécifiques
+RewriteRule ^login/?$ index.php?action=login [L,QSA]
+RewriteRule ^registration/?$ index.php?action=registration [L]
+RewriteRule ^createTrick/?$ index.php?action=createTrick [L]
+RewriteRule ^resetPassword/?$ index.php?action=resetPassword [L,QSA]
+RewriteRule ^forgotPassword/?$ index.php?action=forgotPassword [L]
+RewriteRule ^404/?$ index.php?action=404 [L]
+
+# Redirection pour les tricks avec slug
+RewriteRule ^trick/([a-zA-Z0-9-]+)/?$ index.php?action=trick&slug=$1 [L,QSA]
+
+# Redirection pour updateTrick avec ID en paramètre
+RewriteCond %{QUERY_STRING} (^|&)id=([0-9]+)(&|$)
+RewriteRule ^updateTrick/?$ index.php?action=updateTrick&id=%2 [L,QSA]
+
+# Gestion des erreurs 404 : rediriger les URL non reconnues
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php?action=404 [L]
