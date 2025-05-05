@@ -50,9 +50,9 @@ function sendMail($name, $email, $subject, $message) {
     $mail->Port = 587;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->SMTPAuth = true;
-    $mail->Username = 'esther@pp-communication.fr';
-    $mail->Password = 'carpeDiem2773';
-    $mail->setFrom('esther@pp-communication.fr', 'Snowtricks');
+    $mail->Username = '****@*****.fr';
+    $mail->Password = '*****';
+    $mail->setFrom('*****@*****.fr', 'Snowtricks');
 
     $mail->addAddress($email, $name);
 
