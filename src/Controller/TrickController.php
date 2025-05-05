@@ -104,7 +104,7 @@ final class TrickController extends AbstractController
             // Gérer les illustrations
             $images = $form->get('images')->getData() ?? [];
 
-            if (count($images) === 0) {
+            if (!is_array($images) || empty(array_filter($images))) {
                 // Image par défaut
                 $defaultIllustration = new Illustration();
                 $defaultIllustration->setPath(Trick::DEFAULT_ILLUSTRATION_PICTURE);
