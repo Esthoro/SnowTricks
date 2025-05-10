@@ -1,5 +1,5 @@
 # SnowTricks - PHP/Symfony Project
-Projet 6 Open Classrooms
+Project 6 Open Classrooms
 
 This repository contains the code for the SnowTricks website, developed as part of the "Développeur d'application - PHP/Symfony" program. The website aims to create a collaborative platform for learning and sharing snowboarding tricks, where users can contribute content, discuss techniques, and interact with others.
 
@@ -70,13 +70,13 @@ Clone the repository:
 bash
 Copy
 Edit
-git clone https://github.com/yourusername/snowtricks.git
+git clone https://github.com/Esthoro/SnowTricks.git
 Navigate to the project directory:
 
 bash
 Copy
 Edit
-cd snowtricks
+cd SnowTricks
 Install dependencies:
 
 bash
