@@ -17,29 +17,24 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Form\TrickType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class TrickController extends AbstractController
 {
-    #[Route('/trick/{slug}', name: 'app_trick_show')]
+    #[Route('/trick/{slug}', name: 'app_trick_show', requirements: ['slug' => '[a-z0-9\-]+'])]
     public function show(
         string $slug,
-        TrickRepository $trickRepository,
-        IllustrationRepository $illustrationRepository,
-        VideoRepository $videoRepository,
-        MessageRepository $messageRepository
-    ): Response {
+        TrickRepository $trickRepository): Response {
         $trick = $trickRepository->findOneBySlug($slug);
 
         if (!$trick) {
             throw $this->createNotFoundException('Le trick n\'existe pas.');
         }
 
-        $allIllustrations = $illustrationRepository->findBy(['trick' => $trick]);
-        $firstIllustration = !empty($allIllustrations) ? $allIllustrations[0]->getPath() : null;
-        $allVideos = $videoRepository->findBy(['trick' => $trick]);
-        $messages = $messageRepository->findBy(['trick' => $trick], ['createdAt' => 'DESC']);
+        $allIllustrations = $trick->getIllustrations();
+        $firstIllustration = $allIllustrations[0]->getPath();
+        $allVideos = $trick->getVideos();
+        $messages = $trick->getMessages();
         $author = $trick->getUser()->getUserIdentifier();
 
         // Récupérer les informations de l'auteur pour chaque message
@@ -62,37 +57,13 @@ final class TrickController extends AbstractController
     #[Route('/trick/create', name: 'app_trick_create')]
     public function create(Request $request, EntityManagerInterface $em, Security $security, SluggerInterface $slugger): Response
     {
-        if (!$security->getUser()) {
-            return $this->redirectToRoute('app_login');
-        }
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if (empty($trick->getName()) || empty($trick->getDescription()) || empty($trick->getGroupName())) {
-                $this->addFlash('error', 'Le nom de la figure est requis.');
-                return $this->redirectToRoute('app_trick_create');
-            }
-
-            if (empty($trick->getDescription())) {
-                $this->addFlash('error', 'La description de la figure est requise.');
-                return $this->redirectToRoute('app_trick_create');
-            }
-
-            if (empty($trick->getGroupName())) {
-                $this->addFlash('error', 'Le groupe de la figure est requis.');
-                return $this->redirectToRoute('app_trick_create');
-            }
-
-            $existingTrick = $em->getRepository(Trick::class)->findOneBy(['name' => $trick->getName()]);
-            if ($existingTrick) {
-                $this->addFlash('error', 'Cette figure existe déjà.');
-                return $this->redirectToRoute('app_trick_create');
-            }
 
             $trick->setUser($security->getUser());
             $trick->setCreatedAt(new \DateTimeImmutable());
@@ -155,6 +126,7 @@ final class TrickController extends AbstractController
 
     #[Route('/trick/{id}/edit', name: 'app_trick_edit', methods: ['GET', 'POST'])]
     public function edit(int $id, TrickRepository $trickRepository, IllustrationRepository $illustrationRepository): Response {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $trick = $trickRepository->find($id);
 
         if (!$trick) {
@@ -178,26 +150,6 @@ final class TrickController extends AbstractController
         $trickName = trim($request->request->get('trickName', ''));
         $trickDescription = trim($request->request->get('trickDescription', ''));
         $groupeTrick = trim($request->request->get('groupeTrickSelect', ''));
-
-        if (!$trickId) {
-            return new JsonResponse(['success' => false, 'message' => 'Le\'ID de la figure est requis.']);
-        }
-
-        if (empty($trickName)) {
-            return new JsonResponse(['success' => false, 'message' => 'Le nom de la figure est requis.']);
-        }
-
-        if (empty($trickDescription)) {
-            return new JsonResponse(['success' => false, 'message' => 'La description de la figure est requise.']);}
-
-        if (empty($groupeTrick)) {
-            return new JsonResponse(['success' => false, 'message' => 'Le groupe de la figure est requis.']);
-        }
-
-        $existingTrick = $em->getRepository(Trick::class)->findOneBy(['name' => $trickName]);
-        if ($existingTrick && $existingTrick->getId() !== (int) $trickId) {
-            return new JsonResponse(['success' => false, 'message' => 'Ce nom est déjà utilisé par un autre trick.']);
-        }
 
         $trick = $em->getRepository(Trick::class)->find($trickId);
 

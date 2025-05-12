@@ -7,8 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[ORM\Table(name: 'trick')]
+#[ORM\UniqueConstraint(name: 'unique_slug', columns: ['slug'])]
+#[UniqueEntity('slug', message: 'Un trick de ce nom existe déjà.')]
 class Trick
 {
     #[ORM\Id]
@@ -38,13 +42,13 @@ class Trick
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Illustration::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Illustration::class, mappedBy: 'trick', cascade: ['persist'], orphanRemoval: true)]
     private Collection $illustrations;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'trick', cascade: ['persist'], orphanRemoval: true)]
     private Collection $videos;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Message::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'trick', cascade: ['persist'], orphanRemoval: true)]
     private Collection $messages;
 
     public const DEFAULT_ILLUSTRATION_PICTURE = 'trickDefaultPicture.webp';

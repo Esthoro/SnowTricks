@@ -21,6 +21,7 @@ class Illustration
     #[ORM\Column(length: 255)]
     private ?string $path = null;
 
+
     public function getId(): ?int
     {
         return $this->id;
